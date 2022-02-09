@@ -13,7 +13,26 @@
     </form>
     <hr>
     @foreach ($tweets as $tweet)
-       <p>{{$tweet->id}} - {{ $tweet->user->name}} - {{ $tweet->content }}</p>
+
+        <div class="flex">
+            <div class="w-1/8">
+                @if ($tweet->user->photo)
+                    <img src="{{ url("storage/{$tweet->user->photo}") }}" alt="{{ $tweet->user->name}}" class="rounded-full h-8 w-8">
+                @else
+                    <img src="{{ url('images/profiles/sem-foto.png') }}" alt="{{ $tweet->user->name}}" class="rounded-full h-8 w-8">
+                @endif
+            </div>
+            <div class=" w-7/8">
+                <p>{{$tweet->id}} - {{ $tweet->user->name}} - {{ $tweet->content }}
+            </div>
+        </div>
+
+        @if ($tweet->likes->count())
+            <a href="" wire:click.prevent="unlike({{ $tweet->id }})">Descurtir</a>
+        @else
+            <a href="#" wire:click.prevent="like({{ $tweet->id }})">Curtir</a>
+        @endif
+    </p>
     @endforeach
 
     <hr>
